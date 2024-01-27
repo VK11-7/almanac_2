@@ -1,6 +1,7 @@
 import sys
 import time
 import requests
+from bs4 import BeautifulSoup
 import re
 import pandas as pd
 from io import BytesIO
