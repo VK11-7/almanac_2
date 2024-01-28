@@ -1,15 +1,18 @@
 import sys
 import time
-import requests
 from bs4 import BeautifulSoup
+import requests
 import re
 import pandas as pd
 from io import BytesIO
 import urllib
 from datetime import datetime, timedelta
 import streamlit as st
+import pywhatkit
 
-st.title('Daily Almanac')
+st.title('Welcome🙏🏻')
+st.header('Simply Ayurveda presents🌿')
+st.subheader('Dainika Almanac🗓️')
 
 today = datetime.today()
 date1 = today.strftime("%d/%m/%Y")
@@ -23,9 +26,54 @@ sheet_url = "https://docs.google.com/spreadsheets/d/1h2rVBV6X2gNg4hRNVFT26DoW-cb
 response = requests.get(sheet_url)
 df = pd.read_csv(BytesIO(response.content))
 
+df.to_csv('almanac1.csv', index = False)
+
+dd = pd.read_csv('almanac1.csv')
+st.write(dd)
+
+st.sidebar.header("Almanac Details")
+almanac_form = st.sidebar.form("almanac_form")
+user_date = almanac_form.text_input("Date")
+user_weekday = almanac_form.text_input("Weekday")
+user_sunrise = almanac_form.text_input("Sunrise")
+user_sunset = almanac_form.text_input("Sunset")
+user_moonrise = almanac_form.text_input("Moonrise")
+user_moonset = almanac_form.text_input("Moonset")
+user_samvatsara = almanac_form.text_input("Samvatsara")
+user_ayana = almanac_form.text_input("Ayana")
+user_rtu = almanac_form.text_input("Rtu")
+user_masa = almanac_form.text_input("Masa")
+user_kollamera = almanac_form.text_input("Kollam era")
+user_paksha = almanac_form.text_input("Paksha")
+user_tithi = almanac_form.text_input("Tithi")
+user_vasara = almanac_form.text_input("Vasara")
+user_nakshatra = almanac_form.text_input("Nakshatra")
+user_sunsign = almanac_form.text_input("Sunsign")
+user_moonsign = almanac_form.text_input("Moonsign")
+user_brahmamuhurta = almanac_form.text_input("Brahma muhurta")
+user_pratahsandhya = almanac_form.text_input("Pratah sandhya")
+user_abhijitmuhurta = almanac_form.text_input("Abhijit muhurta")
+user_saayamsandhya = almanac_form.text_input("Saayam sandhya")
+user_rahukalam = almanac_form.text_input("Rahu kalam")
+user_yamaganda = almanac_form.text_input("Yama ganda")
+user_gulikaikaalam = almanac_form.text_input("Gulikai Kaalam")
+user_significance = almanac_form.text_input("Significance")
+user_sudhakalainwomen = almanac_form.text_input("Sudhakala in women")
+user_sudhakalainmen = almanac_form.text_input("Sudhakala in men")
+user_vishakalainwomen = almanac_form.text_input("Vishakala in women")
+user_vishakalainmen = almanac_form.text_input("Vishakala in men")
+user_chakrabasedonvasara = almanac_form.text_input("Chakra based on vasara")
+user_thebodyofkalparushabynakshatra = almanac_form.text_input("The Body of Kal Parusha by Nakshatra")
+add_data = almanac_form.form_submit_button("Update data")
+if add_data:
+  new_data = {"Date": user_date, "Weekday":user_weekday, "Sunrise" :user_sunrise, "Sunset" :user_sunset, "Moonrise" :user_moonrise, "Moonset" :user_moonset, "Samvatsara" :user_samvatsara, "Ayana" :user_ayana, "Rtu" :user_rtu, "Masa" :user_masa, "Kollam era" :user_kollamera, "Paksha" :user_paksha, "Tithi" :user_tithi, "Vasara" :user_vasara, "Nakshatra" :user_nakshatra, "Sunsign" :user_sunsign, "Moonsign" :user_moonrise, "Brahma muhurta" :user_brahmamuhurta, "Pratah sandhya" :user_pratahsandhya, "Abhijit muhurta" :user_abhijitmuhurta, "Saayam sandhya" :user_saayamsandhya, "Rahu kalam" :user_rahukalam, "Yama ganda" :user_yamaganda, "Gulikai Kaalam" :user_yamaganda, "Significance" :user_significance, "Sudhakala in women" :user_sudhakalainwomen, "Sudhakala in men" :user_sudhakalainmen, "Vishakala in women" :user_vishakalainwomen, "Vishakala in men" :user_vishakalainmen, "Chakra based on vasara" :user_chakrabasedonvasara, "The Body of Kal Parusha by Nakshatra" :user_thebodyofkalparushabynakshatra}
+  dd = dd.append(new_data,ignore_index=True)
+  df.to_csv('almanac1.csv',index=False)
+
+
 soup=BeautifulSoup(page.text,'html.parser')
 
-res = df.loc[df['Date'] == date1]
+res = dd.loc[df['Date'] == date1]
 
 l12 = soup.find('div',class_='dpPHeaderRightContent')
 
@@ -326,6 +374,15 @@ Message Simply Ayurveda on WhatsApp. https://wa.me/message/DTX6RK5L6HE3B1
 Subscribe to our YouTube channel - https://youtube.com/c/SimplyAyurveda
 """
 
-msg = message.format(Date=Date, Weekday=Weekday, Sunrise=d['Sunrise'], Sunset=f['Sunset'], Moonrise=d['Moonrise'], Moonset=f['Moonset'], Samvatsara=h['Shaka Samvat'], Ayana=n['Drik Ayana'], Ritu=n['Drik Ritu'], Masa=Masa, Kollamera=Kollamera, Paksha=e['Paksha'], Tithi=e['Tithi'], Vasara=e['Weekday'], Nakshatra=g['Nakshatra'], Sunsign=l['Sunsign'], Moonsign=l['Moonsign'], Brahmamuhurta=p['Brahma Muhurta'], Pratahsandhya=q['Pratah Sandhya'], Abhijitmuhurta=p['Abhijit'], Saayamsandhya=q['Sayahna Sandhya'], Rahukalam=r['Rahu Kalam'], Yamaganda=s['Yamaganda'], Gulikaikaalam=r['Gulikai Kalam'], Significance=c['Significance'], Sudhakalainwomen=Sudhakalainwomen, Sudhakalainmen=Sudhakalainmen, Vishakalainwomen=Vishakalainwomen, Vishakalainmen=Vishakalainmen, Chakrabasedonvasara=Chakrabasedonvasara, Bodypartbasedonnakshatra=Bodypartbasedonnakshatra)
+msg = message.format(Date=Date, Weekday=Weekday, Sunrise=Sunrise, Sunset=Sunset, Moonrise=Moonrise, Moonset=Moonset, Samvatsara=Samvatsara, Ayana=Ayana, Ritu=Ritu, Masa=Masa, Kollamera=Kollamera, Paksha=Paksha, Tithi=Tithi, Vasara=Vasara, Nakshatra=Nakshatra, Sunsign=Sunsign, Moonsign=Moonsign, Brahmamuhurta=Brahmamuhurta, Pratahsandhya=Pratahsandhya, Abhijitmuhurta=Abhijitmuhurta, Saayamsandhya=Saayamsandhya, Rahukalam=Rahukalam, Yamaganda=Yamaganda, Gulikaikaalam=Gulikaikaalam, Significance=Significance, Sudhakalainwomen=Sudhakalainwomen, Sudhakalainmen=Sudhakalainmen, Vishakalainwomen=Vishakalainwomen, Vishakalainmen=Vishakalainmen, Chakrabasedonvasara=Chakrabasedonvasara, Bodypartbasedonnakshatra=Bodypartbasedonnakshatra)
 
-st.text(msg)
+st.code(msg)
+
+if st.button('Send WhatsApp Message'):
+  pywhatkit.sendwhatmsg_instantly(
+      phone_no="+919360871557", 
+      message=msg,
+  )
+
+st.subheader("Thank You!😊")
+st.write('©️ VK 2024')
