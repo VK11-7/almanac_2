@@ -4,3 +4,4 @@ pandas
 streamlit
 urllib3
 pywhatkit
+pyautogui
