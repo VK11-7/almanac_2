@@ -70,7 +70,6 @@ python-docx
 pytweening
 pytz
 pywhatkit
-pywin32
 pyzmq
 referencing
 requests
